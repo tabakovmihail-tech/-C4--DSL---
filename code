@@ -1,0 +1,82 @@
+package com.example;
+
+import com.structurizr.Workspace;
+import com.structurizr.model.*;
+import com.structurizr.view.*;
+
+public class TaskManagerModel {
+
+    public static Workspace create() {
+        Workspace workspace = new Workspace("Task Manager", "C4 model for Task Manager system.");
+        Model model = workspace.getModel();
+
+        // Persons
+        Person user = model.addPerson("Пользователь", "Создаёт и управляет задачами.");
+
+        // Software System
+        SoftwareSystem taskManager = model.addSoftwareSystem("Task Manager", "Система управления задачами.");
+
+        // Containers
+        Container webApp = taskManager.addContainer(
+                "Web Application",
+                "Пользовательский интерфейс системы.",
+                "HTML, CSS, JavaScript"
+        );
+
+        Container backend = taskManager.addContainer(
+                "Backend API",
+                "Обрабатывает запросы, содержит бизнес-логику.",
+                "Java / Spring Boot"
+        );
+
+        Container database = taskManager.addContainer(
+                "Database",
+                "Хранит информацию о задачах и пользователях.",
+                "PostgreSQL"
+        );
+
+        user.uses(webApp, "Использует");
+        webApp.uses(backend, "Отправляет HTTP-запросы");
+        backend.uses(database, "Читает и записывает данные");
+
+        Component taskService = backend.addComponent(
+                "TaskService",
+                "Управление задачами.",
+                "Spring Service"
+        );
+
+        Component userService = backend.addComponent(
+                "UserService",
+                "Управление пользователями.",
+                "Spring Service"
+        );
+
+        taskService.uses(database, "Использует");
+        userService.uses(database, "Использует");
+
+        ViewSet views = workspace.getViews();
+
+        SystemContextView contextView = views.createSystemContextView(
+                taskManager,
+                "SystemContext",
+                "Системный контекст."
+        );
+        contextView.addAllElements();
+
+        ContainerView containerView = views.createContainerView(
+                taskManager,
+                "Containers",
+                "Диаграмма контейнеров."
+        );
+        containerView.addAllElements();
+
+        ComponentView componentView = views.createComponentView(
+                backend,
+                "Components",
+                "Компоненты Backend API."
+        );
+        componentView.addAllElements();
+
+        return workspace;
+    }
+}
