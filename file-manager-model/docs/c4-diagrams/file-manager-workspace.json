@@ -1,0 +1,370 @@
+{
+  "id" : 0,
+  "name" : "File Manager",
+  "description" : "C4-модель настольного файлового менеджера",
+  "version" : null,
+  "lastModifiedDate" : null,
+  "lastModifiedUser" : null,
+  "lastModifiedAgent" : null,
+  "thumbnail" : null,
+  "properties" : { },
+  "configuration" : {
+    "scope" : null,
+    "visibility" : null,
+    "users" : [ ]
+  },
+  "model" : {
+    "people" : [ {
+      "id" : "1",
+      "tags" : "Element,Person",
+      "url" : null,
+      "properties" : { },
+      "perspectives" : [ ],
+      "name" : "Пользователь",
+      "description" : "Работает с файлами через графический интерфейс",
+      "relationships" : [ {
+        "id" : "4",
+        "tags" : "Relationship",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "sourceId" : "1",
+        "destinationId" : "2",
+        "description" : "Просматривает дерево каталогов, выполняет операции",
+        "technology" : null,
+        "interactionStyle" : null,
+        "linkedRelationshipId" : null
+      }, {
+        "id" : "9",
+        "tags" : "Relationship",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "sourceId" : "1",
+        "destinationId" : "6",
+        "description" : "Взаимодействует через GUI",
+        "technology" : null,
+        "interactionStyle" : null,
+        "linkedRelationshipId" : null
+      } ],
+      "group" : null
+    } ],
+    "softwareSystems" : [ {
+      "id" : "2",
+      "tags" : "Element,Software System",
+      "url" : null,
+      "properties" : { },
+      "perspectives" : [ ],
+      "name" : "Файловый менеджер",
+      "description" : "Настольное приложение",
+      "relationships" : [ {
+        "id" : "5",
+        "tags" : "Relationship",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "sourceId" : "2",
+        "destinationId" : "3",
+        "description" : "Выполняет операции через системные API",
+        "technology" : null,
+        "interactionStyle" : null,
+        "linkedRelationshipId" : null
+      } ],
+      "group" : null,
+      "containers" : [ {
+        "id" : "6",
+        "tags" : "Element,Container",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "name" : "Desktop GUI Application",
+        "description" : "Графический интерфейс файлового менеджера",
+        "relationships" : [ {
+          "id" : "10",
+          "tags" : "Relationship",
+          "url" : null,
+          "properties" : { },
+          "perspectives" : [ ],
+          "sourceId" : "6",
+          "destinationId" : "7",
+          "description" : "Передает команды",
+          "technology" : null,
+          "interactionStyle" : null,
+          "linkedRelationshipId" : null
+        }, {
+          "id" : "11",
+          "tags" : "Relationship",
+          "url" : null,
+          "properties" : { },
+          "perspectives" : [ ],
+          "sourceId" : "6",
+          "destinationId" : "8",
+          "description" : "Читает и сохраняет настройки",
+          "technology" : null,
+          "interactionStyle" : null,
+          "linkedRelationshipId" : null
+        } ],
+        "group" : null,
+        "technology" : "Python + PyQt5/tkinter",
+        "components" : [ ],
+        "documentation" : {
+          "sections" : [ ],
+          "decisions" : [ ],
+          "images" : [ ]
+        }
+      }, {
+        "id" : "7",
+        "tags" : "Element,Container",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "name" : "File Operations Module",
+        "description" : "Модуль выполнения операций над файлами",
+        "relationships" : [ {
+          "id" : "12",
+          "tags" : "Relationship",
+          "url" : null,
+          "properties" : { },
+          "perspectives" : [ ],
+          "sourceId" : "7",
+          "destinationId" : "3",
+          "description" : "Выполняет операции",
+          "technology" : null,
+          "interactionStyle" : null,
+          "linkedRelationshipId" : null
+        }, {
+          "id" : "13",
+          "tags" : "Relationship",
+          "url" : null,
+          "properties" : { },
+          "perspectives" : [ ],
+          "sourceId" : "7",
+          "destinationId" : "8",
+          "description" : "Записывает логи",
+          "technology" : null,
+          "interactionStyle" : null,
+          "linkedRelationshipId" : null
+        } ],
+        "group" : null,
+        "technology" : "Python",
+        "components" : [ ],
+        "documentation" : {
+          "sections" : [ ],
+          "decisions" : [ ],
+          "images" : [ ]
+        }
+      }, {
+        "id" : "8",
+        "tags" : "Element,Container",
+        "url" : null,
+        "properties" : { },
+        "perspectives" : [ ],
+        "name" : "Local Storage",
+        "description" : "Локальное хранилище настроек",
+        "relationships" : [ ],
+        "group" : null,
+        "technology" : "JSON / SQLite",
+        "components" : [ ],
+        "documentation" : {
+          "sections" : [ ],
+          "decisions" : [ ],
+          "images" : [ ]
+        }
+      } ],
+      "documentation" : {
+        "sections" : [ ],
+        "decisions" : [ ],
+        "images" : [ ]
+      }
+    }, {
+      "id" : "3",
+      "tags" : "Element,Software System",
+      "url" : null,
+      "properties" : { },
+      "perspectives" : [ ],
+      "name" : "Операционная система",
+      "description" : "Файловая система и API",
+      "relationships" : [ ],
+      "group" : null,
+      "containers" : [ ],
+      "documentation" : {
+        "sections" : [ ],
+        "decisions" : [ ],
+        "images" : [ ]
+      }
+    } ],
+    "deploymentNodes" : [ ],
+    "customElements" : [ ],
+    "properties" : { }
+  },
+  "documentation" : {
+    "sections" : [ ],
+    "decisions" : [ ],
+    "images" : [ ]
+  },
+  "views" : {
+    "customViews" : [ ],
+    "systemLandscapeViews" : [ ],
+    "systemContextViews" : [ {
+      "key" : "SystemContext",
+      "order" : 1,
+      "title" : null,
+      "description" : "Контекстная диаграмма",
+      "properties" : { },
+      "softwareSystemId" : "2",
+      "paperSize" : null,
+      "dimensions" : null,
+      "automaticLayout" : null,
+      "animations" : [ ],
+      "enterpriseBoundaryVisible" : true,
+      "name" : "System Context View: Файловый менеджер",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "relationships" : [ {
+        "id" : "4",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      }, {
+        "id" : "5",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      } ]
+    } ],
+    "containerViews" : [ {
+      "key" : "Containers",
+      "order" : 2,
+      "title" : null,
+      "description" : "Контейнеры",
+      "properties" : { },
+      "softwareSystemId" : "2",
+      "paperSize" : null,
+      "dimensions" : null,
+      "automaticLayout" : null,
+      "animations" : [ ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "name" : "Container View: Файловый менеджер",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "relationships" : [ {
+        "id" : "10",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      }, {
+        "id" : "11",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      }, {
+        "id" : "12",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      }, {
+        "id" : "13",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      }, {
+        "id" : "9",
+        "description" : "",
+        "properties" : { },
+        "url" : null,
+        "order" : "",
+        "response" : null,
+        "vertices" : [ ]
+      } ]
+    } ],
+    "componentViews" : [ ],
+    "dynamicViews" : [ ],
+    "deploymentViews" : [ ],
+    "imageViews" : [ ],
+    "filteredViews" : [ ],
+    "configuration" : {
+      "branding" : {
+        "logo" : null,
+        "font" : null
+      },
+      "styles" : {
+        "elements" : [ {
+          "tag" : "Container",
+          "colorScheme" : null,
+          "properties" : { },
+          "background" : "#438dd5",
+          "color" : "#ffffff"
+        }, {
+          "tag" : "Person",
+          "colorScheme" : null,
+          "properties" : { },
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person"
+        }, {
+          "tag" : "Software System",
+          "colorScheme" : null,
+          "properties" : { },
+          "background" : "#1168bd",
+          "color" : "#ffffff"
+        } ],
+        "relationships" : [ ]
+      },
+      "themes" : [ ],
+      "terminology" : { },
+      "metadataSymbols" : null,
+      "defaultView" : null,
+      "lastSavedView" : null,
+      "viewSortOrder" : null,
+      "properties" : { }
+    }
+  }
+}

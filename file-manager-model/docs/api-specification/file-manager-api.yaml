@@ -1,0 +1,406 @@
+openapi: 3.0.3
+info:
+  title: File Manager Backend API
+  description: |
+    API для бэкенда файлового менеджера.
+    Предоставляет операции для работы с файловой системой, настройками и историей.
+  version: 1.0.0
+  contact:
+    name: File Manager Team
+    email: support@filemanager.example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+  - url: https://api.filemanager.example.com/api/v1
+    description: Production server
+
+tags:
+  - name: Files
+    description: Операции с файлами и папками
+  - name: Settings
+    description: Управление настройками приложения
+  - name: History
+    description: Работа с историей операций
+
+paths:
+  # ========== Файлы и папки ==========
+  /files/list:
+    get:
+      tags:
+        - Files
+      summary: Получить список файлов и папок
+      description: Возвращает содержимое указанной директории
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Путь к директории
+          schema:
+            type: string
+            example: "/home/user/documents"
+        - name: showHidden
+          in: query
+          required: false
+          description: Показывать скрытые файлы
+          schema:
+            type: boolean
+            default: false
+        - name: sortBy
+          in: query
+          required: false
+          description: Критерий сортировки
+          schema:
+            type: string
+            enum: [name, size, date, type]
+            default: "name"
+      responses:
+        '200':
+          description: Успешное получение списка файлов
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  path:
+                    type: string
+                    example: "/home/user/documents"
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FileInfo'
+        '400':
+          description: Неверный путь или параметры
+        '404':
+          description: Директория не найдена
+        '500':
+          description: Внутренняя ошибка сервера
+          
+  /files/operations/copy:
+    post:
+      tags:
+        - Files
+      summary: Копировать файл или папку
+      description: Копирует указанный файл или папку в новое место
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyRequest'
+      responses:
+        '200':
+          description: Успешное копирование
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Файл успешно скопирован"
+                  operationId:
+                    type: string
+                    example: "copy_123456789"
+        '400':
+          description: Неверные параметры запроса
+        '403':
+          description: Нет прав на операцию
+        '409':
+          description: Файл уже существует
+        '500':
+          description: Ошибка при выполнении операции
+
+  # ========== Настройки ==========
+  /settings:
+    get:
+      tags:
+        - Settings
+      summary: Получить текущие настройки
+      description: Возвращает все настройки пользователя
+      responses:
+        '200':
+          description: Успешное получение настроек
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+                
+    put:
+      tags:
+        - Settings
+      summary: Обновить настройки
+      description: Обновляет одну или несколько настроек пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                language:
+                  type: string
+                  example: "ru"
+                  description: Язык интерфейса
+                theme:
+                  type: string
+                  example: "dark"
+                  description: Тема оформления
+                showHiddenFiles:
+                  type: boolean
+                  example: false
+                  description: Показывать скрытые файлы
+                confirmDeletions:
+                  type: boolean
+                  example: true
+                  description: Подтверждать удаление файлов
+              additionalProperties: false
+      responses:
+        '200':
+          description: Настройки успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Настройки обновлены"
+        '400':
+          description: Неверные параметры настроек
+
+  # ========== История ==========
+  /history/recent:
+    get:
+      tags:
+        - History
+      summary: Получить историю операций
+      description: Возвращает список последних операций с файлами
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: Максимальное количество записей
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: operationType
+          in: query
+          required: false
+          description: Тип операции для фильтрации
+          schema:
+            type: string
+            enum: [copy, move, delete, rename, create]
+      responses:
+        '200':
+          description: Успешное получение истории
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  history:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HistoryEntry'
+
+components:
+  schemas:
+    # Информация о файле
+    FileInfo:
+      type: object
+      required:
+        - name
+        - path
+        - type
+        - size
+        - modifiedDate
+      properties:
+        name:
+          type: string
+          example: "document.pdf"
+          description: Имя файла
+        path:
+          type: string
+          example: "/home/user/documents/document.pdf"
+          description: Полный путь к файлу
+        type:
+          type: string
+          enum: [file, directory, symlink]
+          example: "file"
+          description: Тип элемента
+        size:
+          type: integer
+          example: 1048576
+          description: Размер в байтах
+        modifiedDate:
+          type: string
+          format: date-time
+          example: "2024-01-15T14:30:00Z"
+          description: Дата последнего изменения
+        permissions:
+          type: string
+          example: "rw-r--r--"
+          description: Права доступа
+        isHidden:
+          type: boolean
+          example: false
+          description: Является ли файл скрытым
+        extension:
+          type: string
+          example: ".pdf"
+          description: Расширение файла
+
+    # Запрос на копирование
+    CopyRequest:
+      type: object
+      required:
+        - source
+        - destination
+      properties:
+        source:
+          type: string
+          example: "/home/user/documents/file.txt"
+          description: Путь к исходному файлу/папке
+        destination:
+          type: string
+          example: "/home/user/backup/file.txt"
+          description: Путь к месту назначения
+        overwrite:
+          type: boolean
+          default: false
+          description: Перезаписывать существующий файл
+        recursive:
+          type: boolean
+          default: true
+          description: Рекурсивное копирование для папок
+
+    # Настройки приложения
+    Settings:
+      type: object
+      properties:
+        language:
+          type: string
+          example: "ru"
+          description: Язык интерфейса
+        theme:
+          type: string
+          example: "dark"
+          description: Тема оформления
+        defaultView:
+          type: string
+          enum: [icons, list, details, tiles]
+          example: "list"
+          description: Режим отображения по умолчанию
+        showHiddenFiles:
+          type: boolean
+          example: false
+          description: Показывать скрытые файлы
+        confirmDeletions:
+          type: boolean
+          example: true
+          description: Подтверждать удаление файлов
+        autoRefresh:
+          type: boolean
+          example: true
+          description: Автоматическое обновление
+        recentPaths:
+          type: array
+          items:
+            type: string
+          example: ["/home/user/documents", "/home/user/downloads"]
+          description: Последние открытые директории
+
+    # Запись истории
+    HistoryEntry:
+      type: object
+      required:
+        - id
+        - operation
+        - timestamp
+        - status
+      properties:
+        id:
+          type: string
+          example: "copy_123456789"
+          description: Уникальный идентификатор операции
+        operation:
+          type: string
+          enum: [copy, move, delete, rename, create]
+          example: "copy"
+          description: Тип операции
+        source:
+          type: string
+          example: "/home/user/documents/file.txt"
+          description: Исходный путь
+        destination:
+          type: string
+          example: "/home/user/backup/file.txt"
+          description: Путь назначения (если применимо)
+        timestamp:
+          type: string
+          format: date-time
+          example: "2024-01-15T14:30:00Z"
+          description: Время выполнения операции
+        status:
+          type: string
+          enum: [success, failed, cancelled]
+          example: "success"
+          description: Статус операции
+        userId:
+          type: string
+          example: "user123"
+          description: Идентификатор пользователя
+        errorMessage:
+          type: string
+          example: "Недостаточно прав"
+          description: Сообщение об ошибке (если операция не удалась)
+
+  responses:
+    UnauthorizedError:
+      description: Не авторизован
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Authentication required"
+    ForbiddenError:
+      description: Доступ запрещен
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Insufficient permissions"
+              
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Используйте JWT токен для аутентификации
+
+security:
+  - BearerAuth: []

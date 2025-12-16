@@ -1,0 +1,472 @@
+{
+  "configuration" : { },
+  "description" : "C4-модель настольного файлового менеджера",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2025-12-16T21:18:56Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Работает с файлами и каталогами на своем компьютере через графический интерфейс.",
+      "id" : "1",
+      "name" : "Пользователь",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Работает с файлами и папками через приложение",
+        "destinationId" : "2",
+        "id" : "12",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Взаимодействует через графический интерфейс",
+        "destinationId" : "3",
+        "id" : "14",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "Mouse/Keyboard"
+      }, {
+        "description" : "Взаимодействует с окнами и панелями",
+        "destinationId" : "4",
+        "id" : "19",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Окна, панели, дерево каталогов, таблица файлов, диалоговые окна.",
+          "documentation" : { },
+          "id" : "4",
+          "name" : "UI Layer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "uiLayer"
+          },
+          "relationships" : [ {
+            "description" : "Передает события пользовательских действий",
+            "destinationId" : "5",
+            "id" : "20",
+            "sourceId" : "4",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "PyQt5/tkinter Widgets"
+        }, {
+          "description" : "Обработка действий пользователя, формирование команд к модулю файловых операций.",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "Command Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "commandController"
+          },
+          "relationships" : [ {
+            "description" : "Вызывает операции над файлами и папками",
+            "destinationId" : "8",
+            "id" : "21",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Вызывает операции над файлами и папками",
+            "destinationId" : "7",
+            "id" : "22",
+            "linkedRelationshipId" : "21",
+            "sourceId" : "5"
+          }, {
+            "description" : "Читает/сохраняет пользовательские настройки и историю",
+            "destinationId" : "6",
+            "id" : "24",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Фиксирует действия и запрашивает проверки безопасности",
+            "destinationId" : "9",
+            "id" : "25",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        }, {
+          "description" : "Чтение/запись настроек и истории в локальное хранилище.",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "SettingsService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "settingsService"
+          },
+          "relationships" : [ {
+            "description" : "Работает с конфигурацией и служебными данными",
+            "destinationId" : "10",
+            "id" : "27",
+            "sourceId" : "6",
+            "tags" : "Relationship",
+            "technology" : "JSON/SQL"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        } ],
+        "description" : "Графический интерфейс файлового менеджера, окна и виджеты для работы с файловой системой.",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "Desktop GUI Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "desktopApp"
+        },
+        "relationships" : [ {
+          "description" : "Отправляет команды на выполнение операций с файлами",
+          "destinationId" : "7",
+          "id" : "15",
+          "sourceId" : "3",
+          "tags" : "Relationship",
+          "technology" : "Внутрипроцессные вызовы"
+        }, {
+          "description" : "Читает и сохраняет настройки, историю, закладки",
+          "destinationId" : "10",
+          "id" : "16",
+          "sourceId" : "3",
+          "tags" : "Relationship",
+          "technology" : "Файловый доступ / SQL"
+        }, {
+          "description" : "Вызывает операции над файлами и папками",
+          "destinationId" : "8",
+          "id" : "23",
+          "linkedRelationshipId" : "21",
+          "sourceId" : "3"
+        }, {
+          "description" : "Фиксирует действия и запрашивает проверки безопасности",
+          "destinationId" : "9",
+          "id" : "26",
+          "linkedRelationshipId" : "25",
+          "sourceId" : "3"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Python + PyQt5/tkinter"
+      }, {
+        "components" : [ {
+          "description" : "Реализация операций копирования, перемещения, удаления, переименования, архивации, поиска.",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "FileSystemService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "fileSystemService"
+          },
+          "relationships" : [ {
+            "description" : "Выполняет операции в файловой системе",
+            "destinationId" : "11",
+            "id" : "28",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "OS API"
+          }, {
+            "description" : "Записывает результаты операций и ошибки",
+            "destinationId" : "9",
+            "id" : "29",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        }, {
+          "description" : "Логирование действий и проверки безопасности при критических операциях.",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "LoggingAndSecurity",
+          "properties" : {
+            "structurizr.dsl.identifier" : "loggingSecurity"
+          },
+          "relationships" : [ {
+            "description" : "Сохраняет логи и параметры безопасности (при необходимости)",
+            "destinationId" : "10",
+            "id" : "30",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "JSON/SQL"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        } ],
+        "description" : "Модуль выполнения операций с файлами и каталогами через системные API.",
+        "documentation" : { },
+        "id" : "7",
+        "name" : "File Operations Module",
+        "properties" : {
+          "structurizr.dsl.identifier" : "fileOpsModule"
+        },
+        "relationships" : [ {
+          "description" : "Вызывает системные API для работы с файлами",
+          "destinationId" : "11",
+          "id" : "17",
+          "sourceId" : "7",
+          "tags" : "Relationship",
+          "technology" : "OS API (fs operations)"
+        }, {
+          "description" : "При необходимости читает/пишет вспомогательные данные",
+          "destinationId" : "10",
+          "id" : "18",
+          "sourceId" : "7",
+          "tags" : "Relationship",
+          "technology" : "Файловый доступ / SQL"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Python (os, shutil, модули архивации)"
+      }, {
+        "description" : "Локальное хранилище настроек, истории и служебных данных.",
+        "documentation" : { },
+        "id" : "10",
+        "name" : "Local Storage",
+        "properties" : {
+          "structurizr.dsl.identifier" : "localStorage"
+        },
+        "tags" : "Element,Container",
+        "technology" : "JSON / SQLite"
+      } ],
+      "description" : "Настольное приложение для операций с файлами и папками, архивации и поиска.",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "Файловый менеджер",
+      "properties" : {
+        "structurizr.dsl.identifier" : "fileManager"
+      },
+      "relationships" : [ {
+        "description" : "Выполняет операции с файлами и каталогами",
+        "destinationId" : "11",
+        "id" : "13",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Системные вызовы / API"
+      } ],
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Файловая система и системные API, предоставляющие доступ к дискам, файлам и каталогам.",
+      "documentation" : { },
+      "id" : "11",
+      "name" : "Операционная система",
+      "properties" : {
+        "structurizr.dsl.identifier" : "operatingSystem"
+      },
+      "tags" : "Element,Software System,External"
+    } ]
+  },
+  "name" : "File Manager",
+  "properties" : {
+    "structurizr.inspection.error" : "13",
+    "structurizr.dsl" : "d29ya3NwYWNlICJGaWxlIE1hbmFnZXIiICJDNC3QvNC+0LTQtdC70Ywg0L3QsNGB0YLQvtC70YzQvdC+0LPQviDRhNCw0LnQu9C+0LLQvtCz0L4g0LzQtdC90LXQtNC20LXRgNCwIiB7CiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAi0J/QvtC70YzQt9C+0LLQsNGC0LXQu9GMIiAi0KDQsNCx0L7RgtCw0LXRgiDRgSDRhNCw0LnQu9Cw0LzQuCDQuCDQutCw0YLQsNC70L7Qs9Cw0LzQuCDQvdCwINGB0LLQvtC10Lwg0LrQvtC80L/RjNGO0YLQtdGA0LUg0YfQtdGA0LXQtyDQs9GA0LDRhNC40YfQtdGB0LrQuNC5INC40L3RgtC10YDRhNC10LnRgS4iCgogICAgZmlsZU1hbmFnZXIgPSBzb2Z0d2FyZVN5c3RlbSAi0KTQsNC50LvQvtCy0YvQuSDQvNC10L3QtdC00LbQtdGAIiAi0J3QsNGB0YLQvtC70YzQvdC+0LUg0L/RgNC40LvQvtC20LXQvdC40LUg0LTQu9GPINC+0L/QtdGA0LDRhtC40Lkg0YEg0YTQsNC50LvQsNC80Lgg0Lgg0L/QsNC/0LrQsNC80LgsINCw0YDRhdC40LLQsNGG0LjQuCDQuCDQv9C+0LjRgdC60LAuIiB7CiAgICAgIGRlc2t0b3BBcHAgPSBjb250YWluZXIgIkRlc2t0b3AgR1VJIEFwcGxpY2F0aW9uIiAi0JPRgNCw0YTQuNGH0LXRgdC60LjQuSDQuNC90YLQtdGA0YTQtdC50YEg0YTQsNC50LvQvtCy0L7Qs9C+INC80LXQvdC10LTQttC10YDQsCwg0L7QutC90LAg0Lgg0LLQuNC00LbQtdGC0Ysg0LTQu9GPINGA0LDQsdC+0YLRiyDRgSDRhNCw0LnQu9C+0LLQvtC5INGB0LjRgdGC0LXQvNC+0LkuIiAiUHl0aG9uICsgUHlRdDUvdGtpbnRlciIgewogICAgICAgIHVpTGF5ZXIgPSBjb21wb25lbnQgIlVJIExheWVyIiAi0J7QutC90LAsINC/0LDQvdC10LvQuCwg0LTQtdGA0LXQstC+INC60LDRgtCw0LvQvtCz0L7Qsiwg0YLQsNCx0LvQuNGG0LAg0YTQsNC50LvQvtCyLCDQtNC40LDQu9C+0LPQvtCy0YvQtSDQvtC60L3QsC4iICJQeVF0NS90a2ludGVyIFdpZGdldHMiCiAgICAgICAgY29tbWFuZENvbnRyb2xsZXIgPSBjb21wb25lbnQgIkNvbW1hbmQgQ29udHJvbGxlciIgItCe0LHRgNCw0LHQvtGC0LrQsCDQtNC10LnRgdGC0LLQuNC5INC/0L7Qu9GM0LfQvtCy0LDRgtC10LvRjywg0YTQvtGA0LzQuNGA0L7QstCw0L3QuNC1INC60L7QvNCw0L3QtCDQuiDQvNC+0LTRg9C70Y4g0YTQsNC50LvQvtCy0YvRhSDQvtC/0LXRgNCw0YbQuNC5LiIgIlB5dGhvbiIKICAgICAgICBzZXR0aW5nc1NlcnZpY2UgPSBjb21wb25lbnQgIlNldHRpbmdzU2VydmljZSIgItCn0YLQtdC90LjQtS/Qt9Cw0L/QuNGB0Ywg0L3QsNGB0YLRgNC+0LXQuiDQuCDQuNGB0YLQvtGA0LjQuCDQsiDQu9C+0LrQsNC70YzQvdC+0LUg0YXRgNCw0L3QuNC70LjRidC1LiIgIlB5dGhvbiIKICAgICAgfQogICAgICAKICAgICAgZmlsZU9wc01vZHVsZSA9IGNvbnRhaW5lciAiRmlsZSBPcGVyYXRpb25zIE1vZHVsZSIgItCc0L7QtNGD0LvRjCDQstGL0L/QvtC70L3QtdC90LjRjyDQvtC/0LXRgNCw0YbQuNC5INGBINGE0LDQudC70LDQvNC4INC4INC60LDRgtCw0LvQvtCz0LDQvNC4INGH0LXRgNC10Lcg0YHQuNGB0YLQtdC80L3Ri9C1IEFQSS4iICJQeXRob24gKG9zLCBzaHV0aWwsINC80L7QtNGD0LvQuCDQsNGA0YXQuNCy0LDRhtC40LgpIiB7CiAgICAgICAgZmlsZVN5c3RlbVNlcnZpY2UgPSBjb21wb25lbnQgIkZpbGVTeXN0ZW1TZXJ2aWNlIiAi0KDQtdCw0LvQuNC30LDRhtC40Y8g0L7Qv9C10YDQsNGG0LjQuSDQutC+0L/QuNGA0L7QstCw0L3QuNGPLCDQv9C10YDQtdC80LXRidC10L3QuNGPLCDRg9C00LDQu9C10L3QuNGPLCDQv9C10YDQtdC40LzQtdC90L7QstCw0L3QuNGPLCDQsNGA0YXQuNCy0LDRhtC40LgsINC/0L7QuNGB0LrQsC4iICJQeXRob24iCiAgICAgICAgbG9nZ2luZ1NlY3VyaXR5ID0gY29tcG9uZW50ICJMb2dnaW5nQW5kU2VjdXJpdHkiICLQm9C+0LPQuNGA0L7QstCw0L3QuNC1INC00LXQudGB0YLQstC40Lkg0Lgg0L/RgNC+0LLQtdGA0LrQuCDQsdC10LfQvtC/0LDRgdC90L7RgdGC0Lgg0L/RgNC4INC60YDQuNGC0LjRh9C10YHQutC40YUg0L7Qv9C10YDQsNGG0LjRj9GFLiIgIlB5dGhvbiIKICAgICAgfQogICAgICAKICAgICAgbG9jYWxTdG9yYWdlID0gY29udGFpbmVyICJMb2NhbCBTdG9yYWdlIiAi0JvQvtC60LDQu9GM0L3QvtC1INGF0YDQsNC90LjQu9C40YnQtSDQvdCw0YHRgtGA0L7QtdC6LCDQuNGB0YLQvtGA0LjQuCDQuCDRgdC70YPQttC10LHQvdGL0YUg0LTQsNC90L3Ri9GFLiIgIkpTT04gLyBTUUxpdGUiIHsKICAgICAgICAvLyDQrdGC0L7RgiDQutC+0L3RgtC10LnQvdC10YAg0YLQtdC/0LXRgNGMINC/0YDQvtGB0YLQviDRhdGA0LDQvdC40LvQuNGJ0LUg0LHQtdC3INC60L7QvNC/0L7QvdC10L3RgtC+0LIKICAgICAgfQogICAgfQoKICAgIG9wZXJhdGluZ1N5c3RlbSA9IHNvZnR3YXJlU3lzdGVtICLQntC/0LXRgNCw0YbQuNC+0L3QvdCw0Y8g0YHQuNGB0YLQtdC80LAiICLQpNCw0LnQu9C+0LLQsNGPINGB0LjRgdGC0LXQvNCwINC4INGB0LjRgdGC0LXQvNC90YvQtSBBUEksINC/0YDQtdC00L7RgdGC0LDQstC70Y/RjtGJ0LjQtSDQtNC+0YHRgtGD0L8g0Log0LTQuNGB0LrQsNC8LCDRhNCw0LnQu9Cw0Lwg0Lgg0LrQsNGC0LDQu9C+0LPQsNC8LiIgewogICAgICB0YWdzICJFeHRlcm5hbCIKICAgIH0KCiAgICAvLyDQktGB0LUg0L7RgtC90L7RiNC10L3QuNGPINC+0LHRitGP0LLQu9GP0LXQvCDQstC90YPRgtGA0Lgg0LHQu9C+0LrQsCBtb2RlbAogICAgdXNlciAtPiBmaWxlTWFuYWdlciAi0KDQsNCx0L7RgtCw0LXRgiDRgSDRhNCw0LnQu9Cw0LzQuCDQuCDQv9Cw0L/QutCw0LzQuCDRh9C10YDQtdC3INC/0YDQuNC70L7QttC10L3QuNC1IgogICAgZmlsZU1hbmFnZXIgLT4gb3BlcmF0aW5nU3lzdGVtICLQktGL0L/QvtC70L3Rj9C10YIg0L7Qv9C10YDQsNGG0LjQuCDRgSDRhNCw0LnQu9Cw0LzQuCDQuCDQutCw0YLQsNC70L7Qs9Cw0LzQuCIgItCh0LjRgdGC0LXQvNC90YvQtSDQstGL0LfQvtCy0YsgLyBBUEkiCgogICAgLy8gUmVsYXRpb25zaGlwcyBMZXZlbCAyIChDb250YWluZXJzKQogICAgdXNlciAtPiBkZXNrdG9wQXBwICLQktC30LDQuNC80L7QtNC10LnRgdGC0LLRg9C10YIg0YfQtdGA0LXQtyDQs9GA0LDRhNC40YfQtdGB0LrQuNC5INC40L3RgtC10YDRhNC10LnRgSIgIk1vdXNlL0tleWJvYXJkIgogICAgZGVza3RvcEFwcCAtPiBmaWxlT3BzTW9kdWxlICLQntGC0L/RgNCw0LLQu9GP0LXRgiDQutC+0LzQsNC90LTRiyDQvdCwINCy0YvQv9C+0LvQvdC10L3QuNC1INC+0L/QtdGA0LDRhtC40Lkg0YEg0YTQsNC50LvQsNC80LgiICLQktC90YPRgtGA0LjQv9GA0L7RhtC10YHRgdC90YvQtSDQstGL0LfQvtCy0YsiCiAgICBkZXNrdG9wQXBwIC0+IGxvY2FsU3RvcmFnZSAi0KfQuNGC0LDQtdGCINC4INGB0L7RhdGA0LDQvdGP0LXRgiDQvdCw0YHRgtGA0L7QudC60LgsINC40YHRgtC+0YDQuNGOLCDQt9Cw0LrQu9Cw0LTQutC4IiAi0KTQsNC50LvQvtCy0YvQuSDQtNC+0YHRgtGD0L8gLyBTUUwiCiAgICBmaWxlT3BzTW9kdWxlIC0+IG9wZXJhdGluZ1N5c3RlbSAi0JLRi9C30YvQstCw0LXRgiDRgdC40YHRgtC10LzQvdGL0LUgQVBJINC00LvRjyDRgNCw0LHQvtGC0Ysg0YEg0YTQsNC50LvQsNC80LgiICJPUyBBUEkgKGZzIG9wZXJhdGlvbnMpIgogICAgZmlsZU9wc01vZHVsZSAtPiBsb2NhbFN0b3JhZ2UgItCf0YDQuCDQvdC10L7QsdGF0L7QtNC40LzQvtGB0YLQuCDRh9C40YLQsNC10YIv0L/QuNGI0LXRgiDQstGB0L/QvtC80L7Qs9Cw0YLQtdC70YzQvdGL0LUg0LTQsNC90L3Ri9C1IiAi0KTQsNC50LvQvtCy0YvQuSDQtNC+0YHRgtGD0L8gLyBTUUwiCgogICAgLy8gUmVsYXRpb25zaGlwcyBMZXZlbCAzIChDb21wb25lbnRzKQogICAgdXNlciAtPiB1aUxheWVyICLQktC30LDQuNC80L7QtNC10LnRgdGC0LLRg9C10YIg0YEg0L7QutC90LDQvNC4INC4INC/0LDQvdC10LvRj9C80LgiCiAgICB1aUxheWVyIC0+IGNvbW1hbmRDb250cm9sbGVyICLQn9C10YDQtdC00LDQtdGCINGB0L7QsdGL0YLQuNGPINC/0L7Qu9GM0LfQvtCy0LDRgtC10LvRjNGB0LrQuNGFINC00LXQudGB0YLQstC40LkiCiAgICBjb21tYW5kQ29udHJvbGxlciAtPiBmaWxlU3lzdGVtU2VydmljZSAi0JLRi9C30YvQstCw0LXRgiDQvtC/0LXRgNCw0YbQuNC4INC90LDQtCDRhNCw0LnQu9Cw0LzQuCDQuCDQv9Cw0L/QutCw0LzQuCIKICAgIGNvbW1hbmRDb250cm9sbGVyIC0+IHNldHRpbmdzU2VydmljZSAi0KfQuNGC0LDQtdGCL9GB0L7RhdGA0LDQvdGP0LXRgiDQv9C+0LvRjNC30L7QstCw0YLQtdC70YzRgdC60LjQtSDQvdCw0YHRgtGA0L7QudC60Lgg0Lgg0LjRgdGC0L7RgNC40Y4iCiAgICBjb21tYW5kQ29udHJvbGxlciAtPiBsb2dnaW5nU2VjdXJpdHkgItCk0LjQutGB0LjRgNGD0LXRgiDQtNC10LnRgdGC0LLQuNGPINC4INC30LDQv9GA0LDRiNC40LLQsNC10YIg0L/RgNC+0LLQtdGA0LrQuCDQsdC10LfQvtC/0LDRgdC90L7RgdGC0LgiCgogICAgc2V0dGluZ3NTZXJ2aWNlIC0+IGxvY2FsU3RvcmFnZSAi0KDQsNCx0L7RgtCw0LXRgiDRgSDQutC+0L3RhNC40LPRg9GA0LDRhtC40LXQuSDQuCDRgdC70YPQttC10LHQvdGL0LzQuCDQtNCw0L3QvdGL0LzQuCIgIkpTT04vU1FMIgogICAgCiAgICBmaWxlU3lzdGVtU2VydmljZSAtPiBvcGVyYXRpbmdTeXN0ZW0gItCS0YvQv9C+0LvQvdGP0LXRgiDQvtC/0LXRgNCw0YbQuNC4INCyINGE0LDQudC70L7QstC+0Lkg0YHQuNGB0YLQtdC80LUiICJPUyBBUEkiCiAgICBmaWxlU3lzdGVtU2VydmljZSAtPiBsb2dnaW5nU2VjdXJpdHkgItCX0LDQv9C40YHRi9Cy0LDQtdGCINGA0LXQt9GD0LvRjNGC0LDRgtGLINC+0L/QtdGA0LDRhtC40Lkg0Lgg0L7RiNC40LHQutC4IgogICAgbG9nZ2luZ1NlY3VyaXR5IC0+IGxvY2FsU3RvcmFnZSAi0KHQvtGF0YDQsNC90Y/QtdGCINC70L7Qs9C4INC4INC/0LDRgNCw0LzQtdGC0YDRiyDQsdC10LfQvtC/0LDRgdC90L7RgdGC0LggKNC/0YDQuCDQvdC10L7QsdGF0L7QtNC40LzQvtGB0YLQuCkiICJKU09OL1NRTCIKICB9CgogIHZpZXdzIHsKICAgIHN5c3RlbUNvbnRleHQgZmlsZU1hbmFnZXIgIlN5c3RlbUNvbnRleHQiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGF1dG9MYXlvdXQKICAgIH0KCiAgICBjb250YWluZXIgZmlsZU1hbmFnZXIgIkNvbnRhaW5lcnMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGF1dG9MYXlvdXQKICAgIH0KCiAgICAvLyDQodC+0LfQtNCw0LXQvCDQvtGC0LTQtdC70YzQvdGL0LUg0LTQuNCw0LPRgNCw0LzQvNGLINC60L7QvNC/0L7QvdC10L3RgtC+0LIg0LTQu9GPINC60LDQttC00L7Qs9C+INC60L7QvdGC0LXQudC90LXRgNCwCiAgICBjb21wb25lbnQgZGVza3RvcEFwcCAiRGVza3RvcEFwcENvbXBvbmVudHMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGF1dG9MYXlvdXQKICAgIH0KCiAgICBjb21wb25lbnQgZmlsZU9wc01vZHVsZSAiRmlsZU9wZXJhdGlvbnNDb21wb25lbnRzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBhdXRvTGF5b3V0CiAgICB9CiAgICAKICAgIHN0eWxlcyB7CiAgICAgIGVsZW1lbnQgIlBlcnNvbiIgewogICAgICAgIGJhY2tncm91bmQgIiMwODQyN2IiCiAgICAgICAgY29sb3IgIiNmZmZmZmYiCiAgICAgICAgc2hhcGUgUGVyc29uCiAgICAgIH0KICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgYmFja2dyb3VuZCAiIzExNjhiZCIKICAgICAgICBjb2xvciAiI2ZmZmZmZiIKICAgICAgfQogICAgICBlbGVtZW50ICJDb250YWluZXIiIHsKICAgICAgICBiYWNrZ3JvdW5kICIjNDM4ZGQ1IgogICAgICAgIGNvbG9yICIjZmZmZmZmIgogICAgICB9CiAgICAgIGVsZW1lbnQgIkNvbXBvbmVudCIgewogICAgICAgIGJhY2tncm91bmQgIiM4NWJiZjAiCiAgICAgICAgY29sb3IgIiMwMDAwMDAiCiAgICAgIH0KICAgIH0KICB9Cn0=",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "3",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "DesktopAppComponents",
+      "name" : "Component View: Файловый менеджер - Desktop GUI Application",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "18"
+      }, {
+        "id" : "19"
+      }, {
+        "id" : "20"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "27"
+      } ]
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "7",
+      "elements" : [ {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "FileOperationsComponents",
+      "name" : "Component View: Файловый менеджер - File Operations Module",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "16"
+      }, {
+        "id" : "23"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "29"
+      }, {
+        "id" : "30"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "SystemContext",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: Файловый менеджер",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "14"
+      }, {
+        "id" : "15"
+      }, {
+        "id" : "16"
+      }, {
+        "id" : "17"
+      }, {
+        "id" : "18"
+      } ],
+      "softwareSystemId" : "2"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: Файловый менеджер",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "12"
+      }, {
+        "id" : "13"
+      } ],
+      "softwareSystemId" : "2"
+    } ]
+  }
+}
